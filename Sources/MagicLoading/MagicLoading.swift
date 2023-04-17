@@ -40,4 +40,5 @@ struct MagicViewLoading<WrappedValue> {
 		get { fatalError() }
 		set { fatalError() }
 	}
+
 }
