@@ -1,6 +1,7 @@
 import XCTest
 @testable import MagicLoading
 
+#if os(iOS)
 class MagicWrappedVC: UIViewController {
 
 	@MagicViewLoading var button: UIButton
@@ -48,3 +49,4 @@ final class LoadableWrapperTests: XCTestCase {
 	}
 
 }
+#endif
