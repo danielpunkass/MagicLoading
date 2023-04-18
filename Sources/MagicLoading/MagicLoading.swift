@@ -1,7 +1,24 @@
+#if os(iOS)
 import UIKit
+#else
+import AppKit
+
+extension NSViewController {
+	fileprivate func loadViewIfNeeded() {
+		assert(Thread.isMainThread)
+		guard !isViewLoaded else { return }
+		_ = self.view  // Invokes loadView(), but only ever once.
+	}
+}
+#endif
 
 @propertyWrapper
 struct MagicViewLoading<WrappedValue> {
+#if os(iOS)
+	typealias ViewController = UIViewController
+#else
+	typealias ViewController = NSViewController
+#endif
 
 	private var stored: WrappedValue? = nil
 
@@ -18,7 +35,7 @@ struct MagicViewLoading<WrappedValue> {
 	/// and has remained consistently available. Since the technique informs static generation
 	/// of property wrapper "sugar", I think it's safe to rely upon it even for shipping code.
 	/// https://github.com/apple/swift-evolution/blob/main/proposals/0258-property-wrappers.md#referencing-the-enclosing-self-in-a-wrapper-type
-	static subscript<T: UIViewController>(
+	static subscript<T: ViewController>(
 		_enclosingInstance instance: T,
 		wrapped wrappedKeyPath: ReferenceWritableKeyPath<T, WrappedValue>,
 		storage storageKeyPath: ReferenceWritableKeyPath<T, Self>
