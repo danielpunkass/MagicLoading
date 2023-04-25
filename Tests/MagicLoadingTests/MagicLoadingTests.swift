@@ -1,34 +1,36 @@
 import XCTest
 @testable import MagicLoading
 
-#if os(iOS)
-class MagicWrappedVC: UIViewController {
+// Just a placeholder type for illustration - imagine it's an UIButton or NSButton, for example
+typealias PlatformButton = NSObject
 
-	@MagicViewLoading var button: UIButton
+class MagicWrappedVC: PlatformViewController {
+
+	@MagicViewLoading var button: PlatformButton
 
 	override func loadView() {
-		self.button = UIButton()
+		self.button = PlatformButton()
 	}
 
 }
 
-@available(iOS 16.4, *)
-class AppleWrappedVC: UIViewController {
+@available(iOS 16.4, macOS 13.3, *)
+class AppleWrappedVC: PlatformViewController {
 
-	@ViewLoading var button: UIButton
+	@ViewLoading var button: PlatformButton
 
 	override func loadView() {
-		self.button = UIButton()
+		self.button = PlatformButton()
 	}
 
 }
 
-class UnwrappedVC: UIViewController {
+class UnwrappedVC: PlatformViewController {
 
-	var button: UIButton! = nil
+	var button: PlatformButton! = nil
 
 	override func loadView() {
-		self.button = UIButton()
+		self.button = PlatformButton()
 	}
 
 }
@@ -39,7 +41,7 @@ final class LoadableWrapperTests: XCTestCase {
 		let myVC = MagicWrappedVC()
 		XCTAssertNotNil(myVC.button)
 
-		if #available(iOS 16.4, *) {
+		if #available(iOS 16.4, macOS 13.3, *) {
 			let appleVC = AppleWrappedVC()
 			XCTAssertNotNil(appleVC.button)
 		}
@@ -49,4 +51,3 @@ final class LoadableWrapperTests: XCTestCase {
 	}
 
 }
-#endif
