@@ -6,7 +6,7 @@ typealias PlatformViewController = UIViewController
 #else
 
 import AppKit
-typealias ViewController = NSViewController
+typealias PlatformViewController = NSViewController
 
 extension NSViewController {
 
